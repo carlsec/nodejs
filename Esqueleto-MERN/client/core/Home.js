@@ -36,9 +36,6 @@ export default function Home(){
             <Typography variant="h6" className={classes.title}>
                   Home Page
             </Typography>
-            <Link to="/users">Users</Link><br/>
-            <Link to="/signup">Cadastrar</Link><br/>
-            <Link to="/signin">Logar</Link><br/>
             <CardMedia className={classes.media}
                          image={visionImg} title="Computer Vision"/>
             <CardContent>

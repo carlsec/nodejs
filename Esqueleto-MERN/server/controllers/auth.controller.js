@@ -9,33 +9,46 @@ import config from './../../config/config'
  * Esse email e usado para encontrar o user no banco de dados, e então e definido o metodo UserShema para verificar 
  * se a senha que foi recebida e a mesma. Se verificada o JWT e usado para gerar a signe usando a secret key.
  */
-const signin = async (req, res) => {
-    try {
-        let user = await User.findOne({ "email": req.body.email })
-        if (!user)
-            return res.status('401').json({ error: "User not found" })
+ const signin = async (req, res) => {
+  try {
+    let user = await User.findOne({
+      "email": req.body.email
+    })
+    if (!user)
+      return res.status('401').json({
+        error: "User not found"
+      })
 
-        if (!user.authenticate(req.body.password)) {
-            return res.status('401').send({ error: "Email and password don't match." })
-        }
-
-        const token = jwt.sign({
-            _id: user._id
-          }, config.jwtSecret)
-
-        res.cookie('t', token, { expire: new Date() + 9999 })
-
-        return res.json({
-            token,
-            user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        })
-    } catch (err) {
-        return res.status('401').json({ error: "Could not sign in" })
+    if (!user.authenticate(req.body.password)) {
+      return res.status('401').send({
+        error: "Email and password don't match."
+      })
     }
+
+    const token = jwt.sign({
+      _id: user._id
+    }, config.jwtSecret)
+
+    res.cookie("t", token, {
+      expire: new Date() + 9999
+    })
+
+    return res.json({
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    })
+
+  } catch (err) {
+
+    return res.status('401').json({
+      error: "Could not sign in"
+    })
+
+  }
 }
 
 /**
@@ -65,13 +78,13 @@ const signout = (req, res) => {
  * sendo autaulizada ou deletada antes da correspondente CRUD.
  */
  const hasAuthorization = (req, res, next) => {
-    const authorized = req.profile && req.auth && req.profile._id == req.auth._id
-    if (!(authorized)) {
-      return res.status('403').json({
-        error: "User is not authorized"
-      })
-    }
-    next()
+  const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+  if (!(authorized)) {
+    return res.status('403').json({
+      error: "User is not authorized"
+    })
   }
+  next()
+}
 
 export default { signin, signout, requireSignin, hasAuthorization }

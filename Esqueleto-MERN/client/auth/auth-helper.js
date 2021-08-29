@@ -7,23 +7,23 @@
 import { signout } from './api-auth.js'
 
 const auth = {
-    /** A authenticate metodo pega o JWT credencial e chama a função. Ele armazena as credenciais em sessionStorage. */
-    authenticate(jwt, cb) {
-        if(typeof window !== "undefined")
-            sessionStorage.setItem('jwt', JSON.stringify(jwt))
-        cb()
-    },
-    
-    /** Essa função vai retornar as credenciais aou false, dependendo se as credenciais forem encontradas em sessionStorage. */
-    isAuthenticate() {
+    /** Essa função vai retornar as credenciais ou false, dependendo se as credenciais forem encontradas em sessionStorage. */
+    isAuthenticated() {
         if (typeof window == "undefined")
-           return false
-        
+          return false
+    
         if (sessionStorage.getItem('jwt'))
-           return JSON.parse(sessionStorage.getItem('jwt'))
+          return JSON.parse(sessionStorage.getItem('jwt'))
         else
-           return false
-    },
+          return false
+      },
+    
+    /** A authenticate metodo pega o JWT credencial e chama a função. Ele armazena as credenciais em sessionStorage. */
+    authenticated(jwt, cb) {
+        if (typeof window !== "undefined")
+          sessionStorage.setItem('jwt', JSON.stringify(jwt))
+        cb()
+      },
 
     /** Metoddo que limpa o jwt e desloga o usuario */
     clearJWT(cb) {

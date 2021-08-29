@@ -52,7 +52,7 @@ export default function Signin(props) {
         if (data.error) {
             setValues({ ...values, error: data.error})
         } else {
-            auth.authenticate(data, () => {
+            auth.authenticated(data, () => {
             setValues({ ...values, error: '',redirectToReferrer: true})
             })
         }

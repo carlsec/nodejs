@@ -15,7 +15,14 @@
  import theme from './theme'
  import { hot } from 'react-hot-loader'
 
+ // Depois que o codigo e bem renderizado no server-side, nos precisamos remover o server-side injection CSS quando o root react e montado.
 const App = () => {
+  React.useEffect(() => {
+    const jssStyles = document.querySelector('#jss-server-side')
+    if (jssStyles) {
+      jssStyles.parentNode.removeChild(jssStyles)
+    }
+  }, [])
     return (
     <BrowserRouter>
         <ThemeProvider theme={theme}>

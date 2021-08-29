@@ -41,20 +41,20 @@ const create = async (req, res) => {
  * Next e a proxima função que e definida, assim com o ID do User podemos chamar a função read, update e delete.
  */
  const userByID = async (req, res, next, id) => {
-    try {
-      let user = await User.findById(id)
-      if (!user)
-        return res.status('400').json({
-          error: "User not found"
-        })
-      req.profile = user
-      next()
-    } catch (err) {
+  try {
+    let user = await User.findById(id)
+    if (!user)
       return res.status('400').json({
-        error: "Could not retrieve user"
+        error: "User not found"
       })
-    }
+    req.profile = user
+    next()
+  } catch (err) {
+    return res.status('400').json({
+      error: "Could not retrieve user"
+    })
   }
+}
 
 /**
  * A função read recebe os detalhes do user da req.profile e remove as informaçõe sensiveis.

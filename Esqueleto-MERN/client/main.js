@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import App from './App'
 
 /**
@@ -7,4 +7,4 @@ import App from './App'
  * Id Root especificado no HTML template.js
  */
 
- render(<App/>, document.getElementById('root'))
+ hydrate(<App/>, document.getElementById('root'))
